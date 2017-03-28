@@ -1,7 +1,9 @@
 var request = require('request');
 request = request.defaults({jar: true});
 var env = require('jsdom').env;
-var targetUrl = 'www.baidu.com';
+// var sys = require('sys')
+var exec = require('child_process').exec;
+var targetUrl = 'www.reddit.com';
 var ipUrl = 'https://asm.ca.com/en/api/pingproxy.php';
 var ips = {};
 
@@ -29,8 +31,16 @@ request.get('https://asm.ca.com/en/ping.php', function (e, r, body) {
 						for (cuO in curObj.r) {
 							if(curObj.r[cuO].status == 'finished'){
 								if(curObj.r[cuO].result){
-									ips[curObj.r[cuO].result.ip] = {status:true};
-									console.log(ips);
+									var curIp = curObj.r[cuO].result.ip;
+									if (ips[curIp] == undefined) {
+										ips[curIp] = true;
+										// console.log('start ping test...')
+										exec("ping " + curIp, function(error, stdout, stderr) {
+											if (stdout.match(/\d+ms/)) {
+												console.log(curIp + ':' + stdout.match(/\d+ms/)[0])
+											}
+										});
+									}
 								}
 							}
 						}
