@@ -3,6 +3,7 @@ request = request.defaults({jar: true});
 var env = require('jsdom').env;
 var targetUrl = 'www.baidu.com';
 var ipUrl = 'https://asm.ca.com/en/api/pingproxy.php';
+var ips = {};
 
 console.log('request get page...');
 request.get('https://asm.ca.com/en/ping.php', function (e, r, body) {
@@ -20,13 +21,19 @@ request.get('https://asm.ca.com/en/ping.php', function (e, r, body) {
 			console.log('find uid is ' + uid + ' and t is ' + t);
 			console.log('start regist...');
 			request.post(ipUrl + '?uid=' + uid, function (e, r, body) {
-				console.log('regist complete!start get ips....')
 				for (var i = 1; i < 10; i++) {
 					var tempUrl = ipUrl + '?uid=' + uid + '&host=' + targetUrl + '&v=' + i;
-					console.log(tempUrl);
 					request.get(tempUrl, function(e, r, body) {
 						if (e) {throw e}
-						console.log(body)
+						var curObj = JSON.parse(body);
+						for (cuO in curObj.r) {
+							if(curObj.r[cuO].status == 'finished'){
+								if(curObj.r[cuO].result){
+									ips[curObj.r[cuO].result.ip] = {status:true};
+									console.log(ips);
+								}
+							}
+						}
 					})
 				}
 			}).form({
