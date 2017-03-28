@@ -1,19 +1,36 @@
 var request = require('request');
+request = request.defaults({jar: true});
 var env = require('jsdom').env;
+var targetUrl = 'www.baidu.com';
+var ipUrl = 'https://asm.ca.com/en/api/pingproxy.php';
 
+console.log('request get page...');
 request.get('https://asm.ca.com/en/ping.php', function (e, r, body) {
+	if (e) {throw e}
+	console.log('parse html....');
 	env(body,function (err, window) {
 		var $ = require('jquery')(window);
 		var vtt = $('#vtt').val();
-		var vsectoken = $('#vsectoken').val();
-		console.log(vtt,vsectoken,1111111111111111111111111);
-
+		var vsectoken = $('#page_sectoken').val();
+		console.log('post data to page....');
 		request.post('https://asm.ca.com/en/ping.php', function (e, r, body) {
 			if (e) {throw e}
-			console.log(body)
+			var uid = body.match(/uid=\w+/)[0].slice(4,-1);
+			console.log('find uid is ' + uid);
+			console.log('start get ips....');
+			for (var i = 1; i < 10; i++) {
+				request.get(ipUrl, {
+					"uid":uid,
+					"host":targetUrl,
+					"v":i
+				}, function(e, r, body) {
+					if (e) {throw e}
+					console.log(body.length)
+				})
+			}
 		}).form({
 			"vtt":vtt,
-			"varghost":"www.baidu.com",
+			"varghost":targetUrl,
 			"vhost":"_",
 			"vaction":"ping",
 			"ping":"Start",
