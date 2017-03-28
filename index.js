@@ -3,7 +3,7 @@ request = request.defaults({jar: true});
 var env = require('jsdom').env;
 // var sys = require('sys')
 var exec = require('child_process').exec;
-var targetUrl = 'www.reddit.com';
+var targetUrl = 'www.google.com';
 var ipUrl = 'https://asm.ca.com/en/api/pingproxy.php';
 var ips = {};
 
