@@ -15,15 +15,13 @@ request.get('https://asm.ca.com/en/ping.php', function (e, r, body) {
 		console.log('post data to page....');
 		request.post('https://asm.ca.com/en/ping.php', function (e, r, body) {
 			if (e) {throw e}
-			var uid = body.match(/uid=\w+/)[0].slice(4,-1);
+			var uid = body.match(/uid=\w+/)[0].slice(4);
 			console.log('find uid is ' + uid);
 			console.log('start get ips....');
 			for (var i = 1; i < 10; i++) {
-				request.get(ipUrl, {
-					"uid":uid,
-					"host":targetUrl,
-					"v":i
-				}, function(e, r, body) {
+				var tempUrl = ipUrl + '?uid=' + uid + '&host=' + targetUrl + '&v=' + i;
+				console.log(tempUrl);
+				request.get(tempUrl, function(e, r, body) {
 					if (e) {throw e}
 					console.log(body.length)
 				})
