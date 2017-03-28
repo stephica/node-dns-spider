@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/zk-/node-dns-spider#readme",
   "dependencies": {
+    "jquery": "^3.2.1",
+    "jsdom": "^9.12.0",
     "request": "^2.81.0"
   }
 }
