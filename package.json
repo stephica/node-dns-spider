@@ -1,0 +1,22 @@
+{
+  "name": "node-dns-spider",
+  "version": "1.0.0",
+  "description": "找到一个网址在全球所有的ip，并且获取当前位置的ping值",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zk-/node-dns-spider.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zk-/node-dns-spider/issues"
+  },
+  "homepage": "https://github.com/zk-/node-dns-spider#readme",
+  "dependencies": {
+    "request": "^2.81.0"
+  }
+}
